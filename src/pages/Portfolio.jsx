@@ -115,24 +115,22 @@ const Portfolio = () => {
     }
   ];
 
- const filters = [
-  { id: "all", label: "Tous les projets", count: projects.length, icon: <FaStar /> },
-  { id: "web", label: "Développement Web", count: projects.filter(p => p.category === "web").length, icon: <FaLaptopCode /> },
-  { id: "mobile", label: "Applications Mobile", count: projects.filter(p => p.category === "mobile").length, icon: <FaMobileAlt /> },
-  { id: "ai", label: "Intelligence Artificielle", count: projects.filter(p => p.category === "ai").length, icon: <FaRobot /> },
-  { id: "backend", label: "API & Backend", count: projects.filter(p => p.category === "backend").length, icon: <FaServer /> },
-  { id: "marketing", label: "Marketing Digital", count: projects.filter(p => p.category === "marketing").length, icon: <FaBullhorn /> },
-  { id: "communication", label: "Communication", count: projects.filter(p => p.category === "communication").length, icon: <FaComments /> }
-];
+  const filters = [
+    { id: "all", label: "Tous les projets", count: projects.length, icon: <FaStar /> },
+    { id: "web", label: "Développement Web", count: projects.filter(p => p.category === "web").length, icon: <FaLaptopCode /> },
+    { id: "mobile", label: "Applications Mobile", count: projects.filter(p => p.category === "mobile").length, icon: <FaMobileAlt /> },
+    { id: "ai", label: "Intelligence Artificielle", count: projects.filter(p => p.category === "ai").length, icon: <FaRobot /> },
+    { id: "backend", label: "API & Backend", count: projects.filter(p => p.category === "backend").length, icon: <FaServer /> },
+    { id: "marketing", label: "Marketing Digital", count: projects.filter(p => p.category === "marketing").length, icon: <FaBullhorn /> },
+    { id: "communication", label: "Communication", count: projects.filter(p => p.category === "communication").length, icon: <FaComments /> }
+  ];
 
-
-
-const stats = [
-  { number: "+30", label: "Projets Effectués", icon: <FaRocket color="#6C63FF" /> },
-  { number: "100%", label: "Satisfaction Client", icon: <FaStar color="#FBBF24" /> },
-  { number: "+15", label: "Technologies Maîtrisées", icon: <FaTools color="#10B981" /> },
-  { number: "100%", label: "Délais Respectés", icon: <FaClock color="#EF4444" /> }
-];
+  const stats = [
+    { number: "+30", label: "Projets Effectués", icon: <FaRocket color="#6C63FF" /> },
+    { number: "100%", label: "Satisfaction Client", icon: <FaStar color="#FBBF24" /> },
+    { number: "+15", label: "Technologies Maîtrisées", icon: <FaTools color="#10B981" /> },
+    { number: "100%", label: "Délais Respectés", icon: <FaClock color="#EF4444" /> }
+  ];
 
   const filteredProjects = activeFilter === "all" 
     ? projects 
@@ -160,117 +158,36 @@ const stats = [
     };
 
     return (
-      <div style={{
-        background: 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-        height: '100%',
-        position: 'relative'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-10px)';
-        e.currentTarget.style.borderColor = 'rgba(108, 99, 255, 0.3)';
-        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-      >
+      <div className="project-card-compact">
         {/* Badge Featured */}
         {project.featured && (
-          <div style={{
-            position: 'absolute',
-            top: '1rem',
-            left: '1rem',
-            background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-            color: 'white',
-            padding: '0.5rem 1rem',
-            borderRadius: '10px',
-            fontSize: '0.8rem',
-            fontWeight: '700',
-            zIndex: 3,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            boxShadow: '0 5px 15px rgba(245, 158, 11, 0.3)'
-          }}>
+          <div className="featured-badge-compact">
             <span>⭐</span>
             Projet Vedette
           </div>
         )}
 
         {/* Image du Projet */}
-        <div style={{ position: 'relative', height: '250px', overflow: 'hidden' }}>
+        <div className="project-image-compact">
           {!imageLoaded && (
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              background: 'linear-gradient(90deg, #1a1f3a 25%, #2d3748 50%, #1a1f3a 75%)',
-              backgroundSize: '200% 100%',
-              animation: 'skeletonLoading 2s infinite'
-            }}></div>
+            <div className="image-skeleton-compact"></div>
           )}
           <img 
             src={project.img} 
             alt={project.title}
-            style={{ 
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transition: 'transform 0.6s ease',
-              opacity: imageLoaded ? 1 : 0
-            }}
             onLoad={() => setImageLoaded(true)}
+            style={{ opacity: imageLoaded ? 1 : 0 }}
           />
           
           {/* Overlay avec Actions */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'rgba(10, 15, 31, 0.9)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: 0,
-            transition: 'opacity 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = 1;
-          }}
-          >
-            <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="project-overlay-compact">
+            <div className="project-actions-compact">
               {project.demoLink && (
                 <a 
                   href={project.demoLink} 
-                  style={{
-                    background: 'linear-gradient(135deg, #6C63FF, #5a52d5)',
-                    color: 'white',
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '8px',
-                    textDecoration: 'none',
-                    fontWeight: '600',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                  }}
+                  className="action-btn-compact demo-btn-compact"
+                  target="_blank" 
+                  rel="noopener noreferrer"
                 >
                   <span>👁️</span>
                   Voir
@@ -278,27 +195,7 @@ const stats = [
               )}
               
               <button 
-                style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  color: 'white',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '8px',
-                  fontWeight: '600',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                  e.target.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.target.style.transform = 'translateY(0)';
-                }}
+                className="action-btn-compact code-btn-compact"
                 onClick={() => {
                   if (project.codeLink) {
                     window.open(project.codeLink, '_blank');
@@ -315,86 +212,33 @@ const stats = [
 
           {/* Status Badge */}
           <div 
-            style={{
-              position: 'absolute',
-              top: '1rem',
-              right: '1rem',
-              background: getStatusColor(project.status),
-              color: 'white',
-              padding: '0.4rem 0.8rem',
-              borderRadius: '8px',
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              zIndex: 3,
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-            }}
+            className="project-status-compact"
+            style={{ backgroundColor: getStatusColor(project.status) }}
           >
             {getStatusText(project.status)}
           </div>
         </div>
 
         {/* Contenu du Projet */}
-        <div style={{ padding: '1.5rem' }}>
-          <h3 style={{ 
-            color: 'white',
-            fontSize: '1.25rem',
-            fontWeight: '700',
-            marginBottom: '0.5rem',
-            lineHeight: '1.3'
-          }}>
-            {project.title}
-          </h3>
+        <div className="project-content-compact">
+          <h3 className="project-title-compact">{project.title}</h3>
           
-          <p style={{ 
-            color: '#94A3B8',
-            marginBottom: '1rem',
-            lineHeight: '1.5',
-            fontSize: '0.95rem'
-          }}>
-            {project.description}
-          </p>
+          <p className="project-description-compact">{project.description}</p>
 
           {/* Informations Client */}
-      <div style={{ 
-  display: 'flex', 
-  justifyContent: 'space-between',
-  fontSize: '0.85rem',
-  color: '#6C63FF',
-  marginBottom: '1rem',
-  fontWeight: '600'
-}}>
-  <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-    <FaUser /> {project.client}
-  </span>
-  <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-    <FaClock /> {project.duration}
-  </span>
-</div>
+          <div className="project-meta-compact">
+            <span className="client-info">
+              <FaUser /> {project.client}
+            </span>
+            <span className="duration-info">
+              <FaClock /> {project.duration}
+            </span>
+          </div>
           
           {/* Technologies Utilisées */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <div className="project-tech-compact">
             {project.tech.map((technology, index) => (
-              <span 
-                key={index}
-                style={{
-                  background: 'rgba(108, 99, 255, 0.1)',
-                  color: '#6C63FF',
-                  padding: '0.25rem 0.75rem',
-                  borderRadius: '12px',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
-                  border: '1px solid rgba(108, 99, 255, 0.2)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(108, 99, 255, 0.2)';
-                  e.target.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(108, 99, 255, 0.1)';
-                  e.target.style.transform = 'translateY(0)';
-                }}
-              >
+              <span key={index} className="tech-tag-compact">
                 {technology}
               </span>
             ))}
@@ -405,299 +249,169 @@ const stats = [
   };
 
   return (
-    <div style={{ 
-      paddingTop: '100px', 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0A0F1F 0%, #1a1f3a 100%)',
-      color: 'white'
-    }}>
-      <div className="container">
-        
-        {/* Hero Section Portfolio */}
-        <section style={{ padding: '80px 0 50px', textAlign: 'center' }}>
-          <div style={{
-            background: 'rgba(168, 85, 247, 0.1)',
-            color: '#A855F7',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '25px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            fontWeight: '600',
-            marginBottom: '2rem',
-            border: '1px solid rgba(168, 85, 247, 0.3)'
-          }}>
-            <div style={{
-              width: '10px',
-              height: '10px',
-              background: '#A855F7',
-              borderRadius: '50%',
-              animation: 'pulse 2s ease-in-out infinite'
-            }}></div>
-            Mon Portfolio
-          </div>
-          
-          <h1 style={{ 
-            fontSize: '3rem', 
-            fontWeight: '800',
-            background: 'linear-gradient(135deg, #FFFFFF, #6C63FF)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            marginBottom: '1.5rem',
-            lineHeight: '1.1'
-          }}>
-            Mes <span style={{
-              background: 'linear-gradient(135deg, #00D4FF, #EC4899)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>Réalisations</span>
-          </h1>
-          
-          <p style={{ 
-            fontSize: '1.2rem',
-            color: '#94A3B8',
-            marginBottom: '3rem',
-            maxWidth: '700px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            lineHeight: '1.7'
-          }}>
-            Découvrez une sélection de mes projets de développement web, applications mobiles, 
-            solutions d'intelligence artificielle et stratégies digitales.
-          </p>
+    <div className="portfolio-page-compact">
+      
+      {/* Hero Section Compacte */}
+      <section className="portfolio-hero-compact">
+        <div className="container">
+          <div className="portfolio-hero-content-compact text-center">
+            <div className="tech-badge-portfolio-compact">
+              <span className="pulse-dot-tech"></span>
+              Mon Portfolio
+            </div>
+            
+            <h1 className="portfolio-hero-title-compact">
+              Mes <span className="tech-gradient-text">Réalisations</span>
+            </h1>
+            
+            <p className="portfolio-hero-description-compact">
+              Découvrez une sélection de mes projets de développement web, applications mobiles, 
+              solutions d'intelligence artificielle et stratégies digitales.
+            </p>
 
-          {/* Stats Portfolio */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
-            {stats.map((stat, index) => (
-              <div key={index} style={{ textAlign: 'center' }}>
-                <div style={{
-                  fontSize: '2.5rem',
-                  fontWeight: '800',
-                  background: 'linear-gradient(135deg, #00D4FF, #EC4899)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  marginBottom: '0.5rem'
-                }}>
-                  {stat.number}
+            {/* Stats Compactes */}
+            <div className="portfolio-stats-compact">
+              {stats.map((stat, index) => (
+                <div key={index} className="portfolio-stat-compact">
+                  <div className="stat-icon-compact">{stat.icon}</div>
+                  <div className="stat-number-compact">{stat.number}</div>
+                  <div className="stat-label-compact">{stat.label}</div>
                 </div>
-                <div style={{ color: '#94A3B8', fontSize: '0.9rem', fontWeight: '600' }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Filtres Technologiques */}
-        <section style={{ padding: '2rem 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+      {/* Filtres Compacts */}
+      <section className="portfolio-filters-compact">
+        <div className="container">
+          <div className="filters-container-compact">
             {filters.map((filter, index) => (
               <button
                 key={filter.id}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  background: activeFilter === filter.id 
-                    ? 'linear-gradient(135deg, #6C63FF, #5a52d5)' 
-                    : 'rgba(255, 255, 255, 0.05)',
-                  border: activeFilter === filter.id 
-                    ? '1px solid #6C63FF' 
-                    : '1px solid rgba(255, 255, 255, 0.1)',
-                  color: activeFilter === filter.id ? 'white' : '#94A3B8',
-                  padding: '1rem 1.5rem',
-                  borderRadius: '12px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  minWidth: '180px',
-                  justifyContent: 'center'
-                }}
+                className={`filter-btn-compact ${activeFilter === filter.id ? 'active' : ''}`}
                 onClick={() => setActiveFilter(filter.id)}
-                onMouseEnter={(e) => {
-                  if (activeFilter !== filter.id) {
-                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                    e.target.style.color = 'white';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (activeFilter !== filter.id) {
-                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-                    e.target.style.color = '#94A3B8';
-                  }
-                }}
               >
-                <span style={{ fontSize: '1.2rem' }}>{filter.icon}</span>
-                <span style={{ fontSize: '0.95rem' }}>{filter.label}</span>
-                <span style={{
-                  background: activeFilter === filter.id 
-                    ? 'rgba(255, 255, 255, 0.3)' 
-                    : 'rgba(255, 255, 255, 0.2)',
-                  padding: '0.25rem 0.5rem',
-                  borderRadius: '10px',
-                  fontSize: '0.8rem',
-                  fontWeight: '700',
-                  marginLeft: '0.5rem'
-                }}>
-                  {filter.count}
-                </span>
+                <span className="filter-icon-compact">{filter.icon}</span>
+                <span className="filter-text-compact">{filter.label}</span>
+                <span className="filter-count-compact">{filter.count}</span>
               </button>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Grid des Projets */}
-        <section style={{ padding: '2rem 0' }}>
-          <div className="row">
+      {/* Grid des Projets avec Espace Optimisé */}
+      <section className="portfolio-grid-compact">
+        <div className="container">
+          <div className="projects-grid-compact">
             {filteredProjects.map((project, index) => (
-              <div key={index} className="col-md-6 col-lg-4 mb-4">
-                <ProjectCard project={project} />
-              </div>
+              <ProjectCard key={index} project={project} />
             ))}
           </div>
 
           {/* Message si aucun projet */}
           {filteredProjects.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#94A3B8' }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1.5rem', opacity: 0.5 }}>🔍</div>
-              <h3 style={{ color: 'white', marginBottom: '1rem' }}>Aucun projet trouvé</h3>
+            <div className="no-projects-message-compact">
+              <div className="no-projects-icon">🔍</div>
+              <h3>Aucun projet trouvé</h3>
               <p>Aucun projet ne correspond aux filtres sélectionnés.</p>
             </div>
           )}
-        </section>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section style={{ 
-          padding: '80px 0',
-          textAlign: 'center',
-          background: 'rgba(255, 255, 255, 0.02)',
-          borderRadius: '25px',
-          margin: '4rem -15px',
-          // eslint-disable-next-line no-dupe-keys
-          padding: '4rem 2rem'
-        }}>
-          <h2 style={{ 
-            fontSize: '2.5rem',
-            fontWeight: '800',
-            marginBottom: '1.5rem',
-            color: 'white'
-          }}>
-            Vous avez un <span style={{
-              background: 'linear-gradient(135deg, #00D4FF, #A855F7)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>projet similaire</span> ?
-          </h2>
-          
-          <p style={{ 
-            fontSize: '1.2rem',
-            color: '#94A3B8',
-            marginBottom: '3rem',
-            maxWidth: '600px',
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }}>
-            Contactez-moi pour discuter de votre idée et obtenir un devis personnalisé
-          </p>
-          
-          <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link 
-              to="/contact"
-              style={{
-                background: 'linear-gradient(135deg, #6C63FF, #5a52d5)',
-                color: 'white',
-                padding: '1.2rem 2.5rem',
-                borderRadius: '12px',
-                textDecoration: 'none',
-                fontWeight: '700',
-                fontSize: '1.1rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                border: 'none',
-                transition: 'all 0.3s ease'
-              }}
-             onMouseEnter={(e) => {
-    e.currentTarget.style.transform = 'translateY(-3px)';
-    e.currentTarget.style.boxShadow = '0 15px 35px rgba(108, 99, 255, 0.4)';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = 'none';
-  }}
->
-  <FaRocket style={{ marginRight: '0.5rem', fontSize: '1.2rem' }} />
-  Démarrer mon projet
-</Link>
-            
-            <a 
-              href="mailto:marvissene25@gmail.com"
-              style={{
-                background: 'transparent',
-                color: '#6C63FF',
-                padding: '1.2rem 2.5rem',
-                borderRadius: '12px',
-                textDecoration: 'none',
-                fontWeight: '700',
-                fontSize: '1.1rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                border: '2px solid #6C63FF',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = 'rgba(108, 99, 255, 0.1)';
-                e.target.style.transform = 'translateY(-3px)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = 'transparent';
-                e.target.style.transform = 'translateY(0)';
-              }}
-            >
-              <span style={{ fontSize: '1.2rem' }}>📧</span>
-              Discuter de mon projet
-            </a>
+      {/* Section Expertise Compacte */}
+      <section className="expertise-section-compact">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-6">
+              <h2 className="expertise-title">Pourquoi choisir mes services ?</h2>
+              <div className="expertise-features">
+                <div className="expertise-feature">
+                  <FaCheckCircle className="feature-icon" />
+                  <div>
+                    <h4>Solutions Sur Mesure</h4>
+                    <p>Chaque projet est unique et adapté à vos besoins spécifiques</p>
+                  </div>
+                </div>
+                <div className="expertise-feature">
+                  <FaBolt className="feature-icon" />
+                  <div>
+                    <h4>Délais Respectés</h4>
+                    <p>Livraison dans les temps avec un suivi rigoureux</p>
+                  </div>
+                </div>
+                <div className="expertise-feature">
+                  <FaShieldAlt className="feature-icon" />
+                  <div>
+                    <h4>Support Continu</h4>
+                    <p>Accompagnement et maintenance après la livraison</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="cta-mini-card">
+                <h3>Prêt à démarrer ?</h3>
+                <p>Discutons de votre projet dès maintenant</p>
+                <div className="cta-mini-actions">
+                  <Link to="/contact" className="btn-mini-primary">
+                    <FaRocket />
+                    Commencer
+                  </Link>
+                  <a href="https://wa.me/221779490685" className="btn-mini-secondary">
+                    <span>💬</span>
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            gap: '2rem', 
-            flexWrap: 'wrap',
-            marginTop: '3rem'
-          }}>
-          
+      {/* CTA Section Compacte */}
+      <section className="portfolio-cta-compact">
+        <div className="container text-center">
+          <div className="cta-content-compact">
+            <h2>Transformons votre idée en réalité</h2>
+            <p>Contactez-moi pour un devis personnalisé et gratuit</p>
+            
+            <div className="cta-actions-compact">
+              <Link to="/contact" className="btn-cta-primary-compact">
+                <FaRocket />
+                Démarrer mon projet
+              </Link>
+              
+              <a 
+                href="mailto:marvissene25@gmail.com"
+                className="btn-cta-secondary-compact"
+              >
+                <span>📧</span>
+                Discuter de mon projet
+              </a>
+            </div>
 
-<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', color: '#94A3B8' }}>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-    <FaCheckCircle style={{ color: '#10B981' }} />
-    <span>Devis gratuit et sans engagement</span>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-    <FaShieldAlt style={{ color: '#3B82F6' }} />
-    <span>Garantie satisfait ou remboursé</span>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-    <FaBolt style={{ color: '#F59E0B' }} />
-    <span>Réponse sous 24h maximum</span>
-  </div>
-</div>
-  </div>
- </section>
+            <div className="cta-guarantees-compact">
+              <div className="guarantee-item-compact">
+                <FaCheckCircle />
+                <span>Devis gratuit</span>
+              </div>
+              <div className="guarantee-item-compact">
+                <FaShieldAlt />
+                <span>Garantie satisfaction</span>
+              </div>
+              <div className="guarantee-item-compact">
+                <FaBolt />
+                <span>Réponse sous 24h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      </div>
-
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-        @keyframes skeletonLoading {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-      `}</style>
     </div>
   );
 };

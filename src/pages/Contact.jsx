@@ -5,6 +5,7 @@ import { FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaBullseye, FaCommentDots, FaPaperPlane } from "react-icons/fa";
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -38,42 +39,69 @@ const Contact = () => {
     }, 2000);
   };
 
+  // Méthodes de contact avec liens cliquables
+  const contactMethods = [
+    {
+      icon: <FaEnvelope style={{ color: "#EC4899" }} />,
+      title: "Email",
+      value: "marvissene25@gmail.com",
+      description: "Réponse sous 24h",
+      action: () => {
+        const subject = "Nouveau contact depuis votre portfolio";
+        const body = "Bonjour Saliou,\n\nJe suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.\n\nCordialement,";
+        window.location.href = `mailto:marvissene25@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      },
+      color: "#EC4899"
+    },
+    {
+      icon: <FaWhatsapp style={{ color: "#25D366" }} />,
+      title: "WhatsApp",
+      value: "+221 77 949 06 85",
+      description: "Discutons en direct",
+      action: () => {
+        const message = "Bonjour Saliou, je suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.";
+        window.open(`https://wa.me/221779490685?text=${encodeURIComponent(message)}`, '_blank');
+      },
+      color: "#25D366"
+    },
+    {
+      icon: <FaMapMarkerAlt style={{ color: "#6C63FF" }} />,
+      title: "Localisation",
+      value: "Thiès, Sénégal",
+      description: "Remote & Présentiel",
+      action: () => {
+        window.open("https://www.google.com/maps/place/Thiès,+Sénégal", '_blank');
+      },
+      color: "#6C63FF"
+    }
+  ];
 
-
-const contactMethods = [
-  {
-    icon: <FaEnvelope style={{ color: "#EC4899" }} />,
-    title: "Email",
-    value: "marvissene@gmail.com",
-    description: "Réponse sous 24h",
-    link: "www.linkedin.com/in/saliou-sene-",
-    color: "#EC4899"
-  },
-  {
-    icon: <FaWhatsapp style={{ color: "#25D366" }} />,
-    title: "WhatsApp",
-    value: "+221 77 949 06 85",
-    description: "Discutons en direct",
-    link: "www.linkedin.com/in/saliou-sene-",
-    color: "#25D366"
-  },
-  {
-    icon: <FaMapMarkerAlt style={{ color: "#6C63FF" }} />,
-    title: "Localisation",
-    value: "Thiés, Sénégal",
-    description: "Remote & Présentiel",
-    color: "#6C63FF"
-  }
-];
-
-
- 
-const socialNetworks = [
-  { name: "GitHub", icon: <FaGithub style={{ color: "#333" }} />, link: "#" },
-  { name: "LinkedIn", icon: <FaLinkedin style={{ color: "#0077B5" }} />, link: "#" },
-  { name: "Twitter", icon: <FaTwitter style={{ color: "#1DA1F2" }} />, link: "#" },
-  { name: "Instagram", icon: <FaInstagram style={{ color: "#E4405F" }} />, link: "#" }
-];
+  const socialNetworks = [
+    { 
+      name: "GitHub", 
+      icon: <FaGithub style={{ color: "#333" }} />, 
+      link: "https://github.com/Marvis225",
+      action: () => window.open("https://github.com/Marvis225", '_blank')
+    },
+    { 
+      name: "LinkedIn", 
+      icon: <FaLinkedin style={{ color: "#0077B5" }} />, 
+      link: "https://linkedin.com/in/saliou-sene",
+      action: () => window.open("https://linkedin.com/in/saliou-sene", '_blank')
+    },
+    { 
+      name: "Twitter", 
+      icon: <FaTwitter style={{ color: "#1DA1F2" }} />, 
+      link: "https://twitter.com/Marvis_Sene",
+      action: () => window.open("https://twitter.com/Marvis_Sene", '_blank')
+    },
+    { 
+      name: "Instagram", 
+      icon: <FaInstagram style={{ color: "#E4405F" }} />, 
+      link: "https://instagram.com/marvis_tech",
+      action: () => window.open("https://instagram.com/marvis_tech", '_blank')
+    }
+  ];
 
   const faqs = [
     {
@@ -155,7 +183,8 @@ const socialNetworks = [
                 {contactMethods.map((method, index) => (
                   <div 
                     key={index} 
-                    className="contact-method-card"
+                    className="contact-method-card clickable"
+                    onClick={method.action}
                     data-aos="zoom-in"
                     data-aos-delay={index * 100}
                     style={{ '--method-color': method.color }}
@@ -172,22 +201,14 @@ const socialNetworks = [
                     
                     <div className="method-content">
                       <h3 className="method-title">{method.title}</h3>
-                      {method.link ? (
-                        <a 
-                          href={method.link} 
-                          className="method-value"
-                          target={method.link.startsWith('http') ? '_blank' : '_self'}
-                          rel="noopener noreferrer"
-                        >
-                          {method.value}
-                        </a>
-                      ) : (
-                        <span className="method-value">{method.value}</span>
-                      )}
+                      <span className="method-value">{method.value}</span>
                       <p className="method-description">{method.description}</p>
                     </div>
                     
                     <div className="method-energy"></div>
+                    <div className="click-indicator">
+                      <span>Cliquez pour me contacter</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -197,10 +218,10 @@ const socialNetworks = [
                 <h3>Suivez-moi</h3>
                 <div className="social-grid-tech">
                   {socialNetworks.map((social, index) => (
-                    <a
+                    <div
                       key={index}
-                      href={social.link}
-                      className="social-card-tech"
+                      className="social-card-tech clickable"
+                      onClick={social.action}
                       style={{ '--social-color': social.color }}
                       data-aos="flip-up"
                       data-aos-delay={index * 100}
@@ -208,51 +229,46 @@ const socialNetworks = [
                       <div className="social-icon">{social.icon}</div>
                       <span className="social-name">{social.name}</span>
                       <div className="social-glow"></div>
-                    </a>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
 
-         
-{/* Formulaire de Contact */}
-<div className="contact-form-tech" data-aos="fade-left">
-  <form onSubmit={handleSubmit} className="tech-contact-form">
-    <div className="form-header">
-      <h3>Envoyez un message</h3>
-      <p>Décrivez votre projet en détail pour une réponse personnalisée</p>
-    </div>
+            {/* Formulaire de Contact */}
+            <div className="contact-form-tech" data-aos="fade-left">
+              <form onSubmit={handleSubmit} className="tech-contact-form">
+                <div className="form-header">
+                  <h3>Envoyez un message</h3>
+                  <p>Décrivez votre projet en détail pour une réponse personnalisée</p>
+                </div>
 
-    <div className="form-grid">
-      {/* Nom complet */}
-      <div className="form-group" data-aos="fade-up">
-        <label htmlFor="name" className="form-label-tech">
-          <span className="label-icon"><FaUser style={{ color: "#6C63FF" }} /></span>
-          Nom complet *
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          className="form-input-tech"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          placeholder="Votre nom complet"
-        />
-        <div className="input-glow"></div>
-      </div>
+                <div className="form-grid">
+                  {/* Nom complet */}
+                  <div className="form-group" data-aos="fade-up">
+                    <label htmlFor="name" className="form-label-tech">
+                      <span className="label-icon"><FaUser style={{ color: "#6C63FF" }} /></span>
+                      Nom complet *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="form-input-tech"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Votre nom complet"
+                    />
+                    <div className="input-glow"></div>
+                  </div>
 
-
-<div className="form-group" data-aos="fade-up" data-aos-delay="100">
-  <label htmlFor="email" className="form-label-tech">
-    <span className="label-icon"><FaEnvelope style={{ color: "#EC4899" }} /></span>
-    Email *
-  </label>
-
-
-
-
+                  {/* Email */}
+                  <div className="form-group" data-aos="fade-up" data-aos-delay="100">
+                    <label htmlFor="email" className="form-label-tech">
+                      <span className="label-icon"><FaEnvelope style={{ color: "#EC4899" }} /></span>
+                      Email *
+                    </label>
                     <input
                       type="email"
                       id="email"
@@ -267,66 +283,65 @@ const socialNetworks = [
                   </div>
 
                   {/* Sujet */}
-<div className="form-group full-width" data-aos="fade-up" data-aos-delay="200">
-  <label htmlFor="subject" className="form-label-tech">
-    <span className="label-icon"><FaBullseye style={{ color: "#8B5CF6" }} /></span>
-    Sujet
-  </label>
-  <input
-    type="text"
-    id="subject"
-    name="subject"
-    className="form-input-tech"
-    value={formData.subject}
-    onChange={handleChange}
-    placeholder="Ex: Développement site web"
-  />
-  <div className="input-glow"></div>
-</div>
+                  <div className="form-group full-width" data-aos="fade-up" data-aos-delay="200">
+                    <label htmlFor="subject" className="form-label-tech">
+                      <span className="label-icon"><FaBullseye style={{ color: "#8B5CF6" }} /></span>
+                      Sujet
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      className="form-input-tech"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      placeholder="Ex: Développement site web"
+                    />
+                    <div className="input-glow"></div>
+                  </div>
 
-
-                {/* Message */}
-<div className="form-group full-width" data-aos="fade-up" data-aos-delay="300">
-  <label htmlFor="message" className="form-label-tech">
-    <span className="label-icon"><FaCommentDots style={{ color: "#10B981" }} /></span>
-    Message *
-  </label>
-  <textarea
-    id="message"
-    name="message"
-    className="form-textarea-tech"
-    rows="6"
-    value={formData.message}
-    onChange={handleChange}
-    required
-    placeholder="Décrivez votre projet en détail..."
-  ></textarea>
-  <div className="input-glow"></div>
-</div>
+                  {/* Message */}
+                  <div className="form-group full-width" data-aos="fade-up" data-aos-delay="300">
+                    <label htmlFor="message" className="form-label-tech">
+                      <span className="label-icon"><FaCommentDots style={{ color: "#10B981" }} /></span>
+                      Message *
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      className="form-textarea-tech"
+                      rows="6"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      placeholder="Décrivez votre projet en détail..."
+                    ></textarea>
+                    <div className="input-glow"></div>
+                  </div>
+                </div>
 
                 {/* Bouton d'envoi */}
-<button 
-  type="submit" 
-  className={`submit-btn-tech ${isSubmitting ? 'submitting' : ''}`}
-  disabled={isSubmitting}
-  data-aos="zoom-in"
-  data-aos-delay="400"
->
-  {isSubmitting ? (
-    <>
-      <div className="submit-spinner"></div>
-      Envoi en cours...
-    </>
-  ) : (
-    <>
-      <span className="btn-icon"><FaPaperPlane /></span>
-      Envoyer le message
-    </>
-  )}
-</button>
-   </div>           </form>
-            
-             </div> 
+                <button 
+                  type="submit" 
+                  className={`submit-btn-tech ${isSubmitting ? 'submitting' : ''}`}
+                  disabled={isSubmitting}
+                  data-aos="zoom-in"
+                  data-aos-delay="400"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="submit-spinner"></div>
+                      Envoi en cours...
+                    </>
+                  ) : (
+                    <>
+                      <span className="btn-icon"><FaPaperPlane /></span>
+                      Envoyer le message
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -365,9 +380,15 @@ const socialNetworks = [
               <h3>Vous avez d'autres questions ?</h3>
               <p>N'hésitez pas à me contacter directement pour toute information supplémentaire</p>
               <div className="faq-cta-actions">
-                <Link to="/contact" className="btn-tech-primary">
+                <button 
+                  onClick={() => {
+                    const message = "Bonjour Saliou, j'ai une question supplémentaire à vous poser.";
+                    window.open(`https://wa.me/221779490685?text=${encodeURIComponent(message)}`, '_blank');
+                  }}
+                  className="btn-tech-primary"
+                >
                   Me contacter maintenant
-                </Link>
+                </button>
               </div>
             </div>
           </div>
