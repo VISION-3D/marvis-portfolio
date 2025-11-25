@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://marvis-technologie.netlify.app/sitemap.xml
+Sitemap: https://marvis-technology.vercel.app/sitemap.xml
