@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/marvis-technologie/static/css/main.62c13c9f.css",
+    "main.js": "/marvis-technologie/static/js/main.2e651c38.js",
+    "index.html": "/marvis-technologie/index.html",
+    "main.62c13c9f.css.map": "/marvis-technologie/static/css/main.62c13c9f.css.map",
+    "main.2e651c38.js.map": "/marvis-technologie/static/js/main.2e651c38.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.62c13c9f.css",
+    "static/js/main.2e651c38.js"
+  ]
+}
