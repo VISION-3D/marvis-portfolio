@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/footer.css";
 import { FaEnvelope, FaPhone, FaGlobe } from "react-icons/fa";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import Logo from "../assets/Logo.png";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -12,10 +13,10 @@ const Footer = () => {
 
         {/* COLONNE 1 : LOGO + DESCRIPTION */}
         <div className="footer-brand">
-          <div className="footer-logo">
-            <img src="/logo.png" alt="Marvis Technologie & IA" className="footer-logo-img" />
-            <span className="footer-logo-title">Marvis Technologie & IA</span>
-          </div>
+       <div className="footer-logo">
+  <img src={Logo} alt="Marvis Technologie & IA" className="footer-logo-img" />
+  <span className="footer-logo-title">Marvis Technologie & IA</span>
+</div>
 
           <p className="footer-description">
             Solutions digitales avancées : IA, développement web, mobile, systèmes,
