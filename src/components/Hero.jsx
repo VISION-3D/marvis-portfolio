@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/theme.css";
 import { FaLaptopCode, FaRobot, FaBolt } from "react-icons/fa";
+
 const Hero = () => {
   return (
     <section
@@ -25,6 +26,7 @@ const Hero = () => {
       {/* Contenu principal */}
       <div className="hero-container">
         <div className="hero-content">
+
           {/* Nom */}
           <h1
             className="hero-title"
@@ -43,28 +45,30 @@ const Hero = () => {
             data-aos-delay="250"
           >
             <span className="badge-pulse"></span>
-            Développeur Full Stack & IA
+            Développeur Full Stack & Intelligence Artificielle
           </div>
 
-          {/* Sous-titre */}
+          {/* Sous-titre SEO enrichi */}
           <h2
             className="hero-subtitle"
             data-aos="fade-up"
             data-aos-delay="350"
           >
-            Je transforme vos{" "}
-            <span className="text-energetic">idées</span> en solutions{" "}
-            <span className="text-energetic">digitales performantes</span>
+            Création de{" "}
+            <span className="text-energetic">sites web modernes</span> et{" "}
+            <span className="text-energetic">applications intelligentes</span>
           </h2>
 
-          {/* Description */}
+          {/* Description optimisée SEO */}
           <p
             className="hero-description"
             data-aos="fade-up"
             data-aos-delay="450"
           >
-        Développeur web, mobile et intelligence artificielle.  
-            J’accompagne votre projet du concept à la mise en production.
+            Développeur web et mobile, expert en solutions d'intelligence
+            artificielle. J’accompagne entreprises et particuliers dans la
+            conception, le développement et le déploiement de projets digitaux
+            performants et sur mesure, du prototype à la mise en production.
           </p>
 
           {/* CTA */}
@@ -105,46 +109,42 @@ const Hero = () => {
           </div>
         </div>
 
-     {/* Visuels 3D */}
-<div className="hero-visual">
+        {/* Visuels 3D */}
+        <div className="hero-visual">
 
-  {/* Carte Web */}
-  <div className="floating-card card-1 upgraded-card">
-    <div className="card-icon-3d"><FaLaptopCode /></div>
-    <div className="card-text-3d">Développement Web</div>
-  </div>
+          {/* Carte Web */}
+          <div className="floating-card card-1 upgraded-card">
+            <div className="card-icon-3d"><FaLaptopCode /></div>
+            <div className="card-text-3d">Développement Web</div>
+          </div>
 
-  {/* Carte IA */}
-  <div className="floating-card card-2 upgraded-card">
-    <div className="card-icon-3d"><FaRobot /></div>
-    <div className="card-text-3d">Intelligence Artificielle</div>
-  </div>
+          {/* Carte IA */}
+          <div className="floating-card card-2 upgraded-card">
+            <div className="card-icon-3d"><FaRobot /></div>
+            <div className="card-text-3d">Intelligence Artificielle</div>
+          </div>
 
-  {/* Carte Performance */}
-  <div className="floating-card card-3 upgraded-card">
-    <div className="card-icon-3d"><FaBolt /></div>
-    <div className="card-text-3d">Ultra Performance</div>
-  </div>
+          {/* Carte Performance */}
+          <div className="floating-card card-3 upgraded-card">
+            <div className="card-icon-3d"><FaBolt /></div>
+            <div className="card-text-3d">Ultra Performance</div>
+          </div>
 
-  {/* Effet Énergie */}
-  <div className="energy-core upgraded-core"></div>
-</div>
+          {/* Effet Énergie */}
+          <div className="energy-core upgraded-core"></div>
+        </div>
 
+        {/* Scroll */}
+        <div
+          className="scroll-indicator"
+          data-aos="fade-up"
+          data-aos-delay="1000"
+        >
+          <div className="scroll-arrow"></div>
+          <span></span>
+        </div>
 
-      {/* Scroll */}
-      <div
-        className="scroll-indicator"
-        data-aos="fade-up"
-        data-aos-delay="1000"
-      >
-        <div className="scroll-arrow"></div>
-     
-
-
-
-        <span></span>
       </div>
-    </div>
     </section>
   );
 };

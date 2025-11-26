@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://marvis-technology.vercel.app/sitemap.xml
+
+Sitemap: https://taqwatech.vercel.app/sitemap.xml
