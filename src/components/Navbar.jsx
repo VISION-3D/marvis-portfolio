@@ -1,14 +1,14 @@
-// --- NAVBAR SIMPLIFIÉE SANS BOUTON HAMBURGER ---
+// --- NAVBAR COMPLÈTEMENT RESPONSIVE ---
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/theme.css";
-import { FaSearch, FaRobot, FaYoutube, FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import { FaSearch, FaRobot, FaYoutube, FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaInstagram, FaBars } from "react-icons/fa";
 import Logo from "../assets/Logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeIndicator, setActiveIndicator] = useState({ width: 0, left: 0 });
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const location = useLocation();
 
   // Détection de la largeur d'écran
@@ -24,21 +24,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Mise à jour de l'indicateur actif
+  // Fermer le menu mobile quand on change de page ou redimensionne
   useEffect(() => {
-    updateActiveIndicator();
+    setIsMobileMenuOpen(false);
   }, [location.pathname, windowWidth]);
-
-  const updateActiveIndicator = () => {
-    const activeLink = document.querySelector(`a[href="${location.pathname}"]`);
-    if (activeLink) {
-      const { offsetWidth, offsetLeft } = activeLink;
-      setActiveIndicator({
-        width: offsetWidth,
-        left: offsetLeft
-      });
-    }
-  };
 
   const navItems = [
     { path: "/", label: "Accueil" },
@@ -105,42 +94,41 @@ const Navbar = () => {
     }
   ];
 
+  // Détermine l'affichage selon la largeur d'écran
+  const isMobile = windowWidth < 768;
+  const isTablet = windowWidth >= 768 && windowWidth < 1024;
+  const isDesktop = windowWidth >= 1024;
+
   return (
     <>
       {/* PREMIÈRE BARRE DE NAVIGATION */}
       <nav
         className={`tech-navbar ${isScrolled ? "scrolled" : ""}`}
         style={{
-          background: isScrolled
-            ? "rgba(10, 15, 31, 0.97)"
-            : "rgba(10, 15, 31, 0.92)",
+          background: isScrolled ? "rgba(10, 15, 31, 0.97)" : "rgba(10, 15, 31, 0.92)",
           backdropFilter: "blur(18px)",
           borderBottom: "1px solid rgba(59, 130, 246, 0.45)",
-          height: windowWidth < 768 ? "65px" : "75px",
+          height: isMobile ? "60px" : "75px",
           position: "fixed",
-          top: windowWidth < 768 ? "10px" : "15px",
-          left: windowWidth < 768 ? "5%" : "2.5%",
-          right: windowWidth < 768 ? "5%" : "2.5%",
-          width: windowWidth < 768 ? "90%" : "95%",
+          top: isMobile ? "10px" : "15px",
+          left: isMobile ? "3%" : "2.5%",
+          right: isMobile ? "3%" : "2.5%",
+          width: isMobile ? "94%" : "95%",
           maxWidth: "1400px",
           borderRadius: "15px",
           zIndex: 1000,
-          boxShadow: isScrolled
-            ? "0 10px 40px rgba(0, 0, 0, 0.45)"
-            : "0 5px 25px rgba(0, 0, 0, 0.3)",
+          boxShadow: isScrolled ? "0 10px 40px rgba(0, 0, 0, 0.45)" : "0 5px 25px rgba(0, 0, 0, 0.3)",
           transition: "0.4s ease-in-out",
           margin: "0 auto",
-          overflow: "hidden"
         }}
       >
         <div
-          className="tech-nav-container"
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             height: "100%",
-            padding: windowWidth < 768 ? "0 1rem" : "0 1.5rem",
+            padding: isMobile ? "0 0.8rem" : "0 1.5rem",
             position: "relative"
           }}
         >
@@ -151,142 +139,242 @@ const Navbar = () => {
               display: "flex",
               alignItems: "center",
               textDecoration: "none",
-              zIndex: 10
+              zIndex: 10,
+              flexShrink: 0
             }}
           >
             <img
               src={Logo}
               alt="TaqwaTech"
               style={{
-                width: windowWidth < 768 ? "45px" : "65px",
-                height: windowWidth < 768 ? "45px" : "65px",
+                width: isMobile ? "40px" : "55px",
+                height: isMobile ? "40px" : "55px",
                 objectFit: "contain",
                 filter: "drop-shadow(0 0 18px rgba(59,130,246,0.7))",
-                transition: "0.3s ease-in-out"
               }}
             />
             <span
               style={{
-                marginLeft: "10px",
-                fontSize: windowWidth < 768 ? "0.9rem" : "1rem",
+                marginLeft: "8px",
+                fontSize: isMobile ? "0.85rem" : "1rem",
                 fontWeight: "700",
                 background: "linear-gradient(90deg,#ffffff,#b3c8ff)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                textShadow: `
-                  0px 1px 1px rgba(0, 0, 0, 0.25),
-                  0px 2px 2px rgba(0, 0, 0, 0.18),
-                  0px 3px 3px rgba(0, 0, 0, 0.14),
-                  0 0 12px rgba(59,130,246,0.6)
-                `,
-                display: windowWidth < 480 ? "none" : "block"
+                textShadow: "0 0 12px rgba(59,130,246,0.6)",
+                display: isMobile ? "none" : "block"
               }}
             >
               TaqwaTech
             </span>
           </Link>
 
-          {/* MENU PRINCIPAL - VERSION SIMPLIFIÉE */}
-          <div
-            style={{
-              display: "flex",
-              gap: windowWidth < 768 ? "0.4rem" : "0.8rem",
-              alignItems: "center",
-              position: "relative"
-            }}
-          >
-            {/* INDICATEUR ACTIF ANIMÉ */}
+          {/* BOUTON MENU MOBILE */}
+          {isMobile && (
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              style={{
+                background: "rgba(59, 130, 246, 0.2)",
+                border: "1px solid rgba(59, 130, 246, 0.4)",
+                borderRadius: "6px",
+                padding: "0.4rem",
+                color: "#fff",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "36px",
+                height: "36px"
+              }}
+            >
+              <FaBars size={16} />
+            </button>
+          )}
+
+          {/* MENU PRINCIPAL - DESKTOP/TABLETTE */}
+          {!isMobile && (
             <div
               style={{
-                position: "absolute",
-                bottom: "-8px",
-                left: activeIndicator.left,
-                width: activeIndicator.width,
-                height: "2px",
-                background: "linear-gradient(90deg, #3B82F6, #8B5CF6)",
-                borderRadius: "2px",
-                transition: "all 0.3s ease-in-out",
-                boxShadow: "0 0 10px rgba(59, 130, 246, 0.7)",
-                zIndex: 1
+                display: "flex",
+                gap: isTablet ? "0.5rem" : "0.8rem",
+                alignItems: "center",
+                position: "relative",
+                flexWrap: "wrap",
+                justifyContent: "center"
               }}
-            />
+            >
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  style={{
+                    color: location.pathname === item.path ? "#fff" : "#bcd1ff",
+                    textDecoration: "none",
+                    fontWeight: "500",
+                    padding: isTablet ? "0.4rem 0.7rem" : "0.5rem 1rem",
+                    borderRadius: "8px",
+                    transition: "all 0.25s ease-in-out",
+                    background: location.pathname === item.path
+                      ? "rgba(59,130,246,0.25)"
+                      : "transparent",
+                    textShadow: location.pathname === item.path
+                      ? "0 0 12px rgba(59,130,246,0.8)"
+                      : "none",
+                    fontSize: isTablet ? "0.8rem" : "0.9rem",
+                    whiteSpace: "nowrap"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = "#fff";
+                    e.target.style.background = "rgba(59,130,246,0.12)";
+                    e.target.style.transform = "translateY(-1px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (location.pathname !== item.path) {
+                      e.target.style.color = "#bcd1ff";
+                      e.target.style.background = "transparent";
+                      e.target.style.transform = "translateY(0)";
+                    }
+                  }}
+                >
+                  {isTablet && item.label.length > 8 ? item.label.substring(0, 6) + "..." : item.label}
+                </Link>
+              ))}
+            </div>
+          )}
 
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                style={{
-                  color: location.pathname === item.path ? "#fff" : "#bcd1ff",
-                  textDecoration: "none",
-                  fontWeight: "500",
-                  padding: windowWidth < 768 ? "0.3rem 0.6rem" : "0.5rem 1rem",
-                  borderRadius: "8px",
-                  transition: "all 0.25s ease-in-out",
-                  background: location.pathname === item.path
-                    ? "rgba(59,130,246,0.25)"
-                    : "transparent",
-                  textShadow: location.pathname === item.path
-                    ? "0 0 12px rgba(59,130,246,0.8)"
-                    : "none",
-                  position: "relative",
-                  overflow: "hidden",
-                  fontSize: windowWidth < 768 ? "0.8rem" : "0.9rem",
-                  whiteSpace: "nowrap"
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.color = "#fff";
-                  e.target.style.background = "rgba(59,130,246,0.12)";
-                  e.target.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  if (location.pathname !== item.path) {
-                    e.target.style.color = "#bcd1ff";
-                    e.target.style.background = "transparent";
-                    e.target.style.transform = "translateY(0)";
-                  }
-                }}
-              >
-                {windowWidth < 768 ? 
-                  (item.label === "Accueil" ? "Accueil" : 
-                   item.label === "À propos" ? "À propos" :
-                   item.label === "Services" ? "Services" :
-                   item.label === "Portfolio" ? "Portfolio" : "Plus") 
-                  : item.label
-                }
-              </Link>
-            ))}
-          </div>
+          {/* BOUTON CONTACT - DESKTOP/TABLETTE */}
+          {!isMobile && (
+            <Link
+              to="/contact"
+              style={{
+                padding: isTablet ? "0.5rem 1rem" : "0.6rem 1.5rem",
+                borderRadius: "10px",
+                fontWeight: "600",
+                color: "#fff",
+                border: "1px solid rgba(59,130,246,0.55)",
+                background: "linear-gradient(135deg,rgba(59,130,246,0.35),rgba(147,51,234,0.4))",
+                textShadow: "0 0 12px rgba(59,130,246,0.8)",
+                transition: "all 0.3s ease-in-out",
+                textDecoration: "none",
+                fontSize: isTablet ? "0.8rem" : "0.9rem",
+                whiteSpace: "nowrap",
+                flexShrink: 0
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = "translateY(-1px)";
+                e.target.style.boxShadow = "0 5px 15px rgba(59,130,246,0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+            >
+              {isTablet ? "Contact" : "Me contacter"}
+            </Link>
+          )}
+        </div>
 
-          {/* BOUTON CONTACT */}
-          <Link
-            to="/contact"
+        {/* MENU MOBILE OVERLAY */}
+        {isMobile && isMobileMenuOpen && (
+          <div
             style={{
-              padding: windowWidth < 768 ? "0.4rem 1rem" : "0.6rem 1.5rem",
-              borderRadius: "10px",
-              fontWeight: "600",
-              color: "#fff",
-              border: "1px solid rgba(59,130,246,0.55)",
-              background: "linear-gradient(135deg,rgba(59,130,246,0.35),rgba(147,51,234,0.4))",
-              textShadow: "0 0 12px rgba(59,130,246,0.8)",
-              transition: "all 0.3s ease-in-out",
-              position: "relative",
-              overflow: "hidden",
-              fontSize: windowWidth < 768 ? "0.8rem" : "0.9rem",
-              textDecoration: "none",
-              whiteSpace: "nowrap"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = "translateY(-1px)";
-              e.target.style.boxShadow = "0 5px 15px rgba(59,130,246,0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "none";
+              position: "fixed",
+              top: "0",
+              left: "0",
+              width: "100%",
+              height: "100vh",
+              background: "rgba(10, 15, 31, 0.98)",
+              backdropFilter: "blur(20px)",
+              zIndex: 999,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2rem"
             }}
           >
-            {windowWidth < 768 ? "Contact" : "Me contacter"}
-          </Link>
-        </div>
+            {/* BOUTON FERMER */}
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                position: "absolute",
+                top: "1.5rem",
+                right: "1.5rem",
+                background: "rgba(59, 130, 246, 0.2)",
+                border: "1px solid rgba(59, 130, 246, 0.4)",
+                borderRadius: "6px",
+                padding: "0.5rem",
+                color: "#fff",
+                cursor: "pointer",
+                width: "40px",
+                height: "40px"
+              }}
+            >
+              ✕
+            </button>
+
+            {/* LIENS MOBILE */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                alignItems: "center",
+                width: "100%",
+                maxWidth: "280px"
+              }}
+            >
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    color: location.pathname === item.path ? "#3B82F6" : "#fff",
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    fontSize: "1.1rem",
+                    padding: "1rem 1.5rem",
+                    borderRadius: "10px",
+                    background: location.pathname === item.path
+                      ? "rgba(59, 130, 246, 0.15)"
+                      : "transparent",
+                    border: location.pathname === item.path
+                      ? "1px solid rgba(59, 130, 246, 0.4)"
+                      : "1px solid transparent",
+                    width: "100%",
+                    textAlign: "center",
+                    transition: "all 0.3s ease"
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {/* BOUTON CONTACT MOBILE */}
+              <Link
+                to="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{
+                  padding: "1rem 1.5rem",
+                  borderRadius: "10px",
+                  fontWeight: "600",
+                  color: "#fff",
+                  border: "1px solid rgba(59,130,246,0.6)",
+                  background: "linear-gradient(135deg,rgba(59,130,246,0.4),rgba(147,51,234,0.5))",
+                  textShadow: "0 0 12px rgba(59,130,246,0.8)",
+                  textDecoration: "none",
+                  fontSize: "1.1rem",
+                  marginTop: "1rem",
+                  width: "100%",
+                  textAlign: "center"
+                }}
+              >
+                Me contacter
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* BANDE ANIMÉE SOUS LA NAV */}
         <div
@@ -299,49 +387,49 @@ const Navbar = () => {
             background: "linear-gradient(90deg, #3B82F6, #8B5CF6, #06B6D4, #3B82F6)",
             backgroundSize: "300% 100%",
             animation: "scrollLine 5s linear infinite",
-            boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)"
+            boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
+            borderRadius: "0 0 15px 15px"
           }}
-        ></div>
+        />
       </nav>
 
-      {/* DEUXIÈME BARRE - ACCÈS RAPIDE (CACHÉE SUR MOBILE) */}
-      {windowWidth >= 768 && (
+      {/* DEUXIÈME BARRE - ACCÈS RAPIDE */}
+      {!isMobile && (
         <div
           style={{
             position: "fixed",
-            top: windowWidth < 1024 ? "90px" : "105px",
-            left: windowWidth < 768 ? "5%" : "2.5%",
-            right: windowWidth < 768 ? "5%" : "2.5%",
-            width: windowWidth < 768 ? "90%" : "95%",
+            top: isTablet ? "85px" : "105px",
+            left: isTablet ? "3%" : "2.5%",
+            right: isTablet ? "3%" : "2.5%",
+            width: isTablet ? "94%" : "95%",
             maxWidth: "1400px",
-            height: "60px",
+            height: "50px",
             background: "rgba(15, 23, 42, 0.85)",
             backdropFilter: "blur(15px)",
             border: "1px solid rgba(59, 130, 246, 0.3)",
-            borderRadius: "12px",
+            borderRadius: "10px",
             zIndex: 998,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: windowWidth < 1024 ? "0 1rem" : "0 1.5rem",
+            padding: isTablet ? "0 1rem" : "0 1.5rem",
             boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
-            transition: "0.3s ease-in-out",
             margin: "0 auto"
           }}
         >
           {/* TITRE ACCÈS RAPIDE */}
           <div
             style={{
-              display: windowWidth < 1024 ? "none" : "flex",
+              display: isTablet ? "none" : "flex",
               alignItems: "center",
               color: "#bcd1ff",
               fontWeight: "600",
-              fontSize: "0.9rem",
+              fontSize: "0.85rem",
               textShadow: "0 0 10px rgba(59,130,246,0.5)",
-              minWidth: "120px"
+              minWidth: "110px"
             }}
           >
-            <span style={{ marginRight: "10px", fontSize: "1.1rem" }}>⚡</span>
+            <span style={{ marginRight: "8px", fontSize: "1rem" }}>⚡</span>
             Accès Rapide:
           </div>
 
@@ -350,14 +438,14 @@ const Navbar = () => {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: windowWidth < 1024 ? "0.8rem" : "1.2rem",
+              gap: isTablet ? "0.6rem" : "1rem",
               flex: 1,
               justifyContent: "center",
-              maxWidth: "600px",
+              maxWidth: "500px",
               margin: "0 auto"
             }}
           >
-            {quickAccessItems.map((item, index) => (
+            {quickAccessItems.slice(0, isTablet ? 6 : 8).map((item, index) => (
               <a
                 key={index}
                 href={item.url}
@@ -370,9 +458,8 @@ const Navbar = () => {
                   textDecoration: "none",
                   color: "#bcd1ff",
                   transition: "all 0.3s ease-in-out",
-                  padding: windowWidth < 1024 ? "0.3rem 0.5rem" : "0.4rem 0.8rem",
-                  borderRadius: "8px",
-                  position: "relative"
+                  padding: isTablet ? "0.2rem 0.4rem" : "0.3rem 0.6rem",
+                  borderRadius: "6px",
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.color = "#fff";
@@ -386,16 +473,15 @@ const Navbar = () => {
                 }}
               >
                 <span style={{ 
-                  fontSize: windowWidth < 1024 ? "1.1rem" : "1.3rem", 
-                  marginBottom: "2px" 
+                  fontSize: isTablet ? "1rem" : "1.1rem", 
+                  marginBottom: "1px" 
                 }}>
                   {item.icon}
                 </span>
                 <span
                   style={{
-                    fontSize: windowWidth < 1024 ? "0.6rem" : "0.7rem",
+                    fontSize: isTablet ? "0.55rem" : "0.65rem",
                     fontWeight: "500",
-                    textShadow: "0 0 8px currentColor"
                   }}
                 >
                   {item.name}
@@ -407,14 +493,13 @@ const Navbar = () => {
           {/* BARRE DE RECHERCHE */}
           <div
             style={{
-              display: windowWidth < 1024 ? "none" : "flex",
+              display: isTablet ? "none" : "flex",
               alignItems: "center",
               background: "rgba(59, 130, 246, 0.1)",
               border: "1px solid rgba(59, 130, 246, 0.3)",
-              borderRadius: "8px",
-              padding: "0.3rem 0.8rem",
-              transition: "0.3s ease-in-out",
-              minWidth: "180px"
+              borderRadius: "6px",
+              padding: "0.2rem 0.6rem",
+              minWidth: "150px"
             }}
           >
             <input
@@ -425,23 +510,11 @@ const Navbar = () => {
                 border: "none",
                 outline: "none",
                 color: "#fff",
-                fontSize: "0.8rem",
+                fontSize: "0.75rem",
                 width: "100%",
-                padding: "0.3rem"
-              }}
-            />
-            <button
-              style={{
-                background: "none",
-                border: "none",
-                color: "#3B82F6",
-                cursor: "pointer",
-                fontSize: "1rem",
                 padding: "0.2rem"
               }}
-            >
-              🔍
-            </button>
+            />
           </div>
         </div>
       )}
@@ -455,7 +528,7 @@ const Navbar = () => {
 
       {/* Espace réservé pour la hauteur des barres */}
       <div style={{ 
-        height: windowWidth < 768 ? "100px" : windowWidth < 1024 ? "160px" : "180px" 
+        height: isMobile ? "80px" : isTablet ? "150px" : "180px" 
       }}></div>
     </>
   );

@@ -34,7 +34,6 @@ const Footer = () => {
             `,
           }}
         >
-          TaqwaTech
         </span>
 
       </div>
