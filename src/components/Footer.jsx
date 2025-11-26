@@ -21,7 +21,7 @@ const Footer = () => {
           className="footer-logo-title"
           style={{
             marginLeft: "-100px",
-            fontSize: "3rem",
+            fontSize: "2rem",
             fontWeight: "700",
             background: "linear-gradient(90deg,#ffffff,#b3c8ff)",
             WebkitBackgroundClip: "text",
