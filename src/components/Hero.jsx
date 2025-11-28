@@ -41,7 +41,7 @@ const Hero = () => {
       >
         {/* Nom */}
         <h1 className="hero-title" data-aos="fade-up" data-aos-delay="150">
-          <span className="title-gradient hero-title-glow">Saliou SENE</span>
+          <span className="title-gradient hero-title-glow">TAQWATECH</span>
         </h1>
 
         {/* Badge */}
@@ -51,7 +51,7 @@ const Hero = () => {
           data-aos-delay="250"
         >
           <span className="badge-pulse"></span>
-          Développeur Full Stack & Expert en Intelligence Artificielle
+          Développement Full Stack & Expertise  en Intelligence Artificielle
         </div>
 
         {/* Sous-titre */}
@@ -60,10 +60,10 @@ const Hero = () => {
           data-aos="fade-up"
           data-aos-delay="350"
         >
-          Je crée des{" "}
-          <span className="text-energetic">sites web ultra-modernes</span> et{" "}
-          <span className="text-energetic">applications intelligentes</span>{" "}
-          qui transforment les idées en réalité.
+          CREATION{" "}
+          <span className="text-energetic">SITES WEB ULTRA-MODERNES</span> ET{" "}
+          <span className="text-energetic">APPLICATIONS INTELLIGENTES</span>{" "}
+          QUI  TRANSFORMENT  VOS IDEES  EN REALITES.
         </h2>
 
         {/* Description */}
@@ -72,8 +72,7 @@ const Hero = () => {
           data-aos="fade-up"
           data-aos-delay="450"
         >
-          Avec plus de 30 projets à mon actif, j’accompagne entreprises et
-          particuliers pour concevoir des solutions digitales performantes.
+          Avec plus de 30 projets réalisés, donne vie à vos ambitions grâces des solutions digitales performantes.
           Du prototype à la mise en production, chaque projet est pensé pour
           l’innovation, l’efficacité et l’expérience utilisateur.
         </p>

@@ -172,7 +172,7 @@ const Services = () => {
 
             {/* Description */}
             <p className="services-hero-description" style={{color: "#e0e0e0"}}>
-              Je propose une gamme de services de développement et de stratégie digitale 
+              Nous  proposons une gamme de services de développement et de stratégie digitale 
               pour répondre à tous vos besoins, du simple site vitrine aux applications complexes.
             </p>
 

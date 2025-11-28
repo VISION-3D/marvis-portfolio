@@ -195,8 +195,8 @@ const Contact = () => {
             {/* Informations de Contact */}
             <div className="contact-info-tech" data-aos="fade-right">
               <div className="contact-info-header">
-                <h2>Mes coordonnées</h2>
-                <p>Plusieurs moyens de me contacter pour discuter de votre projet</p>
+                <h2>Nos coordonnées</h2>
+                <p>Plusieurs moyens de nous contacter pour discuter de votre projet</p>
               </div>
 
               {/* Méthodes de Contact */}
@@ -228,7 +228,7 @@ const Contact = () => {
                     
                     <div className="method-energy"></div>
                     <div className="click-indicator">
-                      <span>Cliquez pour me contacter</span>
+                      <span>Cliquez pour nous contacter</span>
                     </div>
                   </div>
                 ))}
@@ -236,7 +236,7 @@ const Contact = () => {
 
               {/* Réseaux Sociaux */}
               <div className="social-section-tech">
-                <h3>Suivez-moi</h3>
+                <h3>Suivez-nous</h3>
                 <div className="social-grid-tech">
                   {socialNetworks.map((social, index) => (
                     <div
@@ -409,7 +409,7 @@ const Contact = () => {
       />
 
 
-              <p>N'hésitez pas à me contacter directement pour toute information supplémentaire</p>
+              <p>N'hésitez pas à nous  contacter directement pour toute information supplémentaire</p>
               <div className="faq-cta-actions">
                 <button 
                   onClick={() => {
@@ -418,7 +418,7 @@ const Contact = () => {
                   }}
                   className="btn-tech-primary"
                 >
-                  Me contacter maintenant
+                  nous contacter maintenant
                 </button>
               </div>
             </div>

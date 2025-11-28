@@ -133,7 +133,7 @@ const Portfolio = () => {
 
   const stats = [
     { number: "+30", label: "Projets Effectués", icon: <FaRocket color="#6C63FF" /> },
-    { number: "100%", label: "Satisfaction Client", icon: <FaStar color="#FBBF24" /> },
+    { number: "100%", label: "Satisfaction", icon: <FaStar color="#FBBF24" /> },
     { number: "+15", label: "Technologies Maîtrisées", icon: <FaTools color="#10B981" /> },
     { number: "100%", label: "Délais Respectés", icon: <FaClock color="#EF4444" /> }
   ];
