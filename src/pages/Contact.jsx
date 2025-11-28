@@ -100,7 +100,7 @@ const Contact = () => {
       description: "Discutons en direct",
       action: () => {
         const message = "Bonjour M. (Mme), je suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.";
-        window.open(`https://api.whatsapp.com/send?phone=221779490685&text=${encodeURIComponent(message)}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=221769490685&text=${encodeURIComponent(message)}`, '_blank');
       },
       color: "#25D366"
     },
@@ -460,7 +460,7 @@ const Contact = () => {
                 <button 
                   onClick={() => {
                     const message = "Bonjour, j'ai une question supplémentaire à vous poser.";
-                    window.open(`https://api.whatsapp.com/send?phone=221779490685&text=${encodeURIComponent(message)}`, '_blank');
+                    window.open(`https://api.whatsapp.com/send?phone=221769490685&text=${encodeURIComponent(message)}`, '_blank');
                   }}
                   className="btn-tech-primary"
                 >
