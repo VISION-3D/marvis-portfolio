@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-
 import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
 import { FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaBullseye, FaCommentDots, FaPaperPlane } from "react-icons/fa";
+import emailjs from 'emailjs-com';
 import SEO from "../components/SEO";
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -15,6 +16,14 @@ const Contact = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sendStatus, setSendStatus] = useState('');
+
+  // 🔥🔥🔥 REMPLACE AVEC TES VRAIS IDs EMAILJS 🔥🔥🔥
+  const EMAILJS_CONFIG = {
+    SERVICE_ID: 'service_abc123', // ← REMPLACE par ton Service ID
+    TEMPLATE_ID: 'template_xyz789', // ← REMPLACE par ton Template ID  
+    PUBLIC_KEY: 'pk_abcdefgh123456' // ← REMPLACE par ta Public Key
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -23,44 +32,75 @@ const Contact = () => {
     });
   };
 
+  // ✅ FONCTION CORRECTE AVEC GESTION D'ERREUR AMÉLIORÉE
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulation d'envoi
-    setTimeout(() => {
-      const subject = encodeURIComponent(formData.subject || `Contact portfolio - ${formData.name}`);
-      const body = encodeURIComponent(
-        `Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      );
-      
-      window.location.href = `mailto:marvissene25@gmail.com?subject=${subject}&body=${body}`;
+    setSendStatus('');
+
+    // Validation supplémentaire
+    if (!formData.name || !formData.email || !formData.message) {
+      setSendStatus('error');
       setIsSubmitting(false);
-    }, 2000);
+      return;
+    }
+
+    try {
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject || `Contact portfolio - ${formData.name}`,
+          message: formData.message,
+          reply_to: formData.email // Important pour pouvoir répondre
+        },
+        EMAILJS_CONFIG.PUBLIC_KEY
+      );
+
+      console.log('Email envoyé avec succès:', result);
+      
+      setSendStatus('success');
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      
+      setTimeout(() => setSendStatus(''), 5000);
+    } catch (error) {
+      console.error('ERREUR EmailJS:', error);
+      
+      // Gestion d'erreur détaillée
+      if (error.text?.includes('Invalid template ID')) {
+        setSendStatus('config_error');
+      } else {
+        setSendStatus('error');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Méthodes de contact avec liens cliquables
+  // ✅ MÉTHODES DE CONTACT (inchangées)
   const contactMethods = [
     {
       icon: <FaEnvelope style={{ color: "#EC4899" }} />,
       title: "Email",
-      value: "contactaqwatech@gmail.com ",
+      value: "contactaqwatech@gmail.com",
       description: "Réponse sous 24h",
       action: () => {
         const subject = "Nouveau contact depuis votre portfolio";
-        const body = "Bonjour Saliou,\n\nJe suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.\n\nCordialement,";
-        window.location.href = `mailto:marvissene25@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const body = "Bonjour M. (Mme),\n\nJe suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.\n\nCordialement,";
+        window.location.href = `mailto:contactaqwatech@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       },
       color: "#EC4899"
     },
     {
       icon: <FaWhatsapp style={{ color: "#25D366" }} />,
       title: "WhatsApp",
-      value: "+221 77 949 06 85",
+      value: "+221 76 949 06 85",
       description: "Discutons en direct",
       action: () => {
-        const message = "Bonjour Saliou, je suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.";
-        window.open(`https://wa.me/221779490685?text=${encodeURIComponent(message)}`, '_blank');
+        const message = "Bonjour M. (Mme), je suis intéressé(e) par vos services et je souhaiterais discuter de mon projet avec vous.";
+        window.open(`https://api.whatsapp.com/send?phone=221779490685&text=${encodeURIComponent(message)}`, '_blank');
       },
       color: "#25D366"
     },
@@ -110,20 +150,25 @@ const Contact = () => {
     },
     {
       question: "Proposez-vous un support après livraison ?",
-      answer: "Oui, je propose un support technique de 30 jours gratuit après la livraison, puis des formules de maintenance mensuelles."
+      answer: "Oui, nous proposons un support technique de 30 jours gratuit après la livraison, puis des formules de maintenance mensuelles."
     },
     {
       question: "Travaillez-vous en remote ?",
-      answer: "Absolument ! Je travaille principalement à distance avec des clients partout dans le monde. Je peux aussi me déplacer sur Dakar."
+      answer: "Absolument ! Nous travaillons principalement à distance avec des clients partout dans le monde."
     },
     {
       question: "Quels sont vos modes de paiement ?",
-      answer: "Je propose un paiement échelonné : 30% à la signature, 40% à la mi-projet, 30% à la livraison. Paiement par virement bancaire ou mobile money."
+      answer: "Nous proposons un paiement échelonné : 30% à la signature, 40% à la mi-projet, 30% à la livraison. Paiement par virement bancaire ou mobile money."
     }
   ];
 
   return (
     <div className="contact-page">
+      <SEO
+        title="TaqwaTech - Contact"
+        description="Contactez TaqwaTech pour vos projets en développement web, applications et solutions IA sur mesure."
+      />
+
       {/* Hero Section Contact */}
       <section className="contact-hero-tech">
         <div className="contact-hero-background">
@@ -132,42 +177,36 @@ const Contact = () => {
           <div className="communication-waves"></div>
         </div>
         
-
-
-
-
-        
         <div
-  className="container"
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    minHeight: "60vh", // ajuste selon le rendu souhaité
-    gap: "1rem",
-  }}
->
-  <div className="contact-hero-content">
-    <div className="tech-badge-contact" data-aos="fade-down">
-      <span className="pulse-dot-contact"></span>
-      Contact
-    </div>
+          className="container"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            minHeight: "60vh",
+            gap: "1rem",
+          }}
+        >
+          <div className="contact-hero-content">
+            <div className="tech-badge-contact" data-aos="fade-down">
+              <span className="pulse-dot-contact"></span>
+              Contact
+            </div>
 
-    <h1 className="contact-hero-title" data-aos="fade-up">
-      Discutons de votre <span className="tech-gradient-text">projet</span>
-    </h1>
+            <h1 className="contact-hero-title" data-aos="fade-up">
+              Discutons de votre <span className="tech-gradient-text">projet</span>
+            </h1>
 
-    <p
-      className="contact-hero-description"
-      data-aos="fade-up"
-      data-aos-delay="200"
-    >
-      Vous avez une idée de projet ? Envie de collaborer ? 
-      Contactez-moi et je vous répondrai dans les plus brefs délais.
-    </p>
-  
+            <p
+              className="contact-hero-description"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              Vous avez une idée de projet ? Envie de collaborer ? 
+              Contactez-nous et nous vous répondrons dans les plus brefs délais.
+            </p>
 
             {/* Communication Indicators */}
             <div className="communication-indicators" data-aos="fade-up" data-aos-delay="400">
@@ -303,9 +342,6 @@ const Contact = () => {
                     <div className="input-glow"></div>
                   </div>
 
-
-
-
                   {/* Sujet */}
                   <div className="form-group full-width" data-aos="fade-up" data-aos-delay="200">
                     <label htmlFor="subject" className="form-label-tech">
@@ -344,6 +380,23 @@ const Contact = () => {
                   </div>
                 </div>
 
+                {/* Messages de statut AMÉLIORÉS */}
+                {sendStatus === 'success' && (
+                  <div className="status-message success" data-aos="fade-up">
+                    ✅ Message envoyé avec succès ! Nous vous répondrons dans les 24h.
+                  </div>
+                )}
+                {sendStatus === 'error' && (
+                  <div className="status-message error" data-aos="fade-up">
+                    ❌ Erreur d'envoi. Vérifiez votre connexion ou utilisez WhatsApp.
+                  </div>
+                )}
+                {sendStatus === 'config_error' && (
+                  <div className="status-message error" data-aos="fade-up">
+                    ⚠️ Configuration manquante. Contactez-nous par WhatsApp.
+                  </div>
+                )}
+
                 {/* Bouton d'envoi */}
                 <button 
                   type="submit" 
@@ -377,7 +430,7 @@ const Contact = () => {
             <h2>Questions fréquentes</h2>
             <p>Trouvez rapidement des réponses à vos questions les plus courantes</p>
           </div>
- </div>
+          
           <div className="faq-grid">
             {faqs.map((faq, index) => (
               <div 
@@ -402,23 +455,16 @@ const Contact = () => {
           <div className="faq-cta" data-aos="fade-up">
             <div className="faq-cta-content">
               <h3>Vous avez d'autres questions ?</h3>
-<div className="contact-page">
-      <SEO
-        title="TaqwaTech - Contact"
-        description="Contactez TaqwaTech pour vos projets en développement web, applications et solutions IA sur mesure."
-      />
-
-
-              <p>N'hésitez pas à nous  contacter directement pour toute information supplémentaire</p>
+              <p>N'hésitez pas à nous contacter directement pour toute information supplémentaire</p>
               <div className="faq-cta-actions">
                 <button 
                   onClick={() => {
-                    const message = "Bonjour Saliou, j'ai une question supplémentaire à vous poser.";
-                    window.open(`https://wa.me/221779490685?text=${encodeURIComponent(message)}`, '_blank');
+                    const message = "Bonjour, j'ai une question supplémentaire à vous poser.";
+                    window.open(`https://api.whatsapp.com/send?phone=221779490685&text=${encodeURIComponent(message)}`, '_blank');
                   }}
                   className="btn-tech-primary"
                 >
-                  nous contacter maintenant
+                  Nous contacter maintenant
                 </button>
               </div>
             </div>
